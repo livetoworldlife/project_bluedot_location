@@ -12,6 +12,8 @@ import NewPlace from './places/pages/NewPlace';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 //49-dynamic route segments
 import UserPlaces from './places/pages/UserPlaces';
+//62-update place
+import UpdatePlace from './places/pages/UpdaterPlace';
 
 const App = () => {
   return (
@@ -24,11 +26,11 @@ const App = () => {
           {/* route user page  */}
           <Route path="/" exact>  <Users /> </Route>
           {/* //49-dynamic route segments */}
-          <Route path='/:userId/places' exact>
-            <UserPlaces />
-          </Route>
+          <Route path='/:userId/places' exact> <UserPlaces /> </Route>
           {/* route new places page */}
           <Route path="/places/new" exact>  <NewPlace />  </Route>
+          {/* 62 update places */}
+          <Route path="/places/:placeId">  <UpdatePlace /> </Route>
           {/* always redirect this path */}
           <Redirect to="/" />
         </Switch>
