@@ -13,7 +13,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 // 64-formReducer to form-hook
 const NewPlace = () => {
   // 64-use reducer to form-hook
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler,] = useForm(
     {
       title: {
         value: '',

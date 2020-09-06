@@ -1,5 +1,5 @@
 //62-update place
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -7,6 +7,8 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 import './NewPlace.css';
 // 64-creating custom hook
 import { useForm } from '../../shared/hooks/form-hook';
+//67-fixing undefined place error
+import Card from '../../shared/components/UIElements/Card';
 
 const DUMMY_PLACES = [
   {
@@ -38,24 +40,56 @@ const DUMMY_PLACES = [
 
 export default function UpdaterPlace() {
   const placeId = useParams().placeId;
-  const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
-  // 64-creating custom hook
-  const [formState, inputHandler] = useForm({
+  const [isLoading, setIsLoading] = useState(true);// 66-Adjusting the form hook
+  // 64-creating custom hook // 66-Adjusting the form hook
+  const [formState, inputHandler, setFormData] = useForm({
     title: {
-      value: identifiedPlace.title,
-      isValid: true
+      value: "",
+      isValid: false
     },
     description: {
-      value: identifiedPlace.description,
-      isValid: true
+      value: "",
+      isValid: false
     }
-  }, true);
+  }, false);
+
+  const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
+
+  // 66-Adjusting the form hook
+  useEffect(() => {
+    if (identifiedPlace) {
+      setFormData(
+        {
+          title: {
+            value: identifiedPlace.title,
+            isValid: true
+          },
+          description: {
+            value: identifiedPlace.description,
+            isValid: true
+          }
+        },
+        true
+      );
+    }
+    setIsLoading(false);
+  }, [setFormData, identifiedPlace]);
+
+
 
   const placeUpdateSubmitHandler = event => {
     event.preventDefault();
     console.log(formState.inputs);
   };
 
+  // 66-Adjusting the form hook
+  if (isLoading) {
+    return (
+      <div className="center">
+        <h2>Loading...</h2>
+      </div>
+    );
+  }
   return (identifiedPlace ?
     (<form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input id="title" element="input" type="text" label="Title"
@@ -68,6 +102,6 @@ export default function UpdaterPlace() {
 
       <Button type="submit" disabled={!formState.isValid}>UPDATE PLACE</Button>
     </form>)
-    : (<div className="center"> <h2>Could not find place!</h2></div>)
+    : (<div className="center"> <Card><h2>Could not find place!</h2></Card></div>)
   );
 };

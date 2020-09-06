@@ -5,6 +5,7 @@ import PlaceList from '../components/PlaceList';
 //50-getting route params
 import { useParams } from 'react-router-dom';
 
+
 const DUMMY_PLACES = [
   {
     id: 'p1',
