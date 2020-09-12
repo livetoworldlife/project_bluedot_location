@@ -1,23 +1,18 @@
 //43-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import MainHeader from './MainHeader';
-//44 navlink
-import NavLinks from './NavLinks';
-//45-mobile navigation
-import SideDrawer from './SideDrawer';
-//47-drawer state
-import Backdrop from '../UIElements/Backdrop';
 
-
+import NavLinks from './NavLinks';                //44 navlink
+import SideDrawer from './SideDrawer';            //45-mobile navigation
+import Backdrop from '../UIElements/Backdrop';    //47-drawer state
 import './MainNavigation.css';
 
 export default function MainNavigation(props) {
   //47-drawer state
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
-  const openDrawerHandler = () => { setDrawerIsOpen(true) };
-  const closeDrawerHandler = () => { setDrawerIsOpen(false) };
+  const openDrawerHandler = () => setDrawerIsOpen(true);
+  const closeDrawerHandler = () => setDrawerIsOpen(false);
 
   return (
     <React.Fragment>

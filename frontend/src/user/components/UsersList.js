@@ -1,10 +1,9 @@
 //39- adding UsrList page-component
 import React from 'react';
 import UserItem from './UserItem';
-import './UsersList.css';
 //43-
 import Card from '../../shared/components/UIElements/Card';
-
+import './UsersList.css';
 // const UsersList = props => {
 //   // if there is no user -USE TERNARY EXPRESSION
 //   if (props.items.length === 0) {
@@ -33,8 +32,6 @@ import Card from '../../shared/components/UIElements/Card';
 
 const UsersList = props => {
   // if there is no user -USE TERNARY EXPRESSION
-
-
   return (
     props.items.length === 0 ?
       (
@@ -44,7 +41,6 @@ const UsersList = props => {
           </Card>
         </div>
       ) :
-
       <ul className="users-list">
         {props.items.map(user => (
           <UserItem
@@ -52,19 +48,10 @@ const UsersList = props => {
             id={user.id}
             image={user.image}
             name={user.name}
-            placeCount={user.places}
+            placeCount={user.places.length}
           />
         ))}
       </ul>
   );
 };
-
-
-
-
-
-
-
-
-
 export default UsersList;
