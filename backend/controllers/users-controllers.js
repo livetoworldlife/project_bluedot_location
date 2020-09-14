@@ -3,14 +3,6 @@ const { validationResult } = require('express-validator');  // 101- validating u
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');   //131-using model for signup
-const DUMMY_USERS = [
-  {
-    id: 'u1',
-    name: 'Eric',
-    email: 'test@test.com',
-    password: '1234'
-  }
-];
 
 const getUsers = async (req, res, next) => {
   let users;                                            // 133- getting users
@@ -21,6 +13,9 @@ const getUsers = async (req, res, next) => {
   }
   res.json({ users: users.map(user => user.toObject({ getters: true })) });
 };
+
+
+
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);                   // 101- validating user routes
@@ -42,7 +37,7 @@ const signup = async (req, res, next) => {
   const createdUser = new User({
     name,
     email,
-    image: 'https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg',
+    image: req.file.path,          // 166 connecting users to image
     password,
     places: []
   });
@@ -54,6 +49,11 @@ const signup = async (req, res, next) => {
   }
   res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
+
+
+
+
+
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;

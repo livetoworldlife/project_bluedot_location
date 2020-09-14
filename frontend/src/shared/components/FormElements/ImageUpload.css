@@ -1,0 +1,17 @@
+.image-upload.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.image-upload__preview{
+  width: 13rem;
+  height: 13rem;
+  border: 1px solid #cccccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom:1rem ;
+}

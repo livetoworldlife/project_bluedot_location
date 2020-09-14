@@ -1,6 +1,9 @@
 const express = require('express');
+
 const placesControllers = require('../controllers/places-controllers');   // 93 adding controllers
 const { check } = require('express-validator');                  // 100- validating api input-req body
+const fileUpload = require('../middleware/file-upload');         // 168 upload new places image to backend 
+
 const router = express.Router();
 
 router.get('/:pid', placesControllers.getPlaceById);                  //89-adding specific place route
@@ -8,6 +11,7 @@ router.get('/:pid', placesControllers.getPlaceById);                  //89-addin
 router.get('/user/:uid', placesControllers.getPlacesByUserId);         //90-getting places by user id
 
 router.post('/',                                                      //94- adding a post
+  fileUpload.single('image'),                                 // 168 upload new places image to backend 
   [
     check('title')                                                    //100- validating title,address not empty, desc 5chars
       .not()

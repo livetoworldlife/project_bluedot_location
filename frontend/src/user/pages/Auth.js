@@ -5,6 +5,7 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';     //146-Getting start with Error handling
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload'; //161 -Building image upload component
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -41,7 +42,8 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          name: undefined
+          name: undefined,
+          image: undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -51,6 +53,10 @@ const Auth = () => {
           ...formState.inputs,
           name: {
             value: '',
+            isValid: false
+          },
+          image: {
+            value: null,
             isValid: false
           }
         },
@@ -63,7 +69,7 @@ const Auth = () => {
   const authSubmitHandler = async event => {
     event.preventDefault();
 
-    if (isLoginMode) {                                  //143-sending a post request to the backend
+    if (isLoginMode) {                                  //143 - sending a post request to the backend
       // 151 -improving the http-hook
       try {
         const responseData = await sendRequest('http://localhost:5000/api/users/login',
@@ -76,14 +82,15 @@ const Auth = () => {
       } catch (err) { }
     } else {
       try {
+        const formData = new FormData();          // 165 - FormData instead of json text  https://www.javascripture.com/FormData
+        formData.append('email', formState.inputs.email.value);
+        formData.append('name', formState.inputs.name.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
+
         const responseData = await sendRequest('http://localhost:5000/api/users/signup',
           'POST',
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value
-          }),
-          { 'Content-Type': 'application/json' }
+          formData
         );
         auth.login(responseData.user.id);                                       //73-Adding Authenticated
       } catch (err) { }
@@ -110,6 +117,7 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText="Please upload an image!" />}                             {/*//161 -Building image upload component */}
           <Input
             element="input"
             id="email"

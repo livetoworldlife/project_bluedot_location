@@ -1,4 +1,5 @@
 // 93 adding controllers
+const fs = require('fs');                           // 169- deleting images when places get deleted
 const HttpError = require('../models/http-error');  // 92-Adding our own error model
 const uuid = require('uuid').v4;                    //94- adding a post
 const { validationResult } = require('express-validator');    // 100- validating api input-req body
@@ -63,8 +64,7 @@ const createPlace = async (req, res, next) => {                 //94- adding a p
     description,
     address,
     location: coordinates,
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
+    image: req.file.path,              // 168 upload new places image to backend 
     creator
   });
   //135 adding places to user 
@@ -93,7 +93,6 @@ const createPlace = async (req, res, next) => {                 //94- adding a p
   } catch (err) {
     return next(new HttpError('Creating place failed, please try again.', 500));
   }
-
   res.status(201).json({ place: createdPlace });
 };
 
@@ -137,10 +136,10 @@ const deletePlace = async (req, res, next) => {               // 97- deleting pl
   if (!place) {
     return next(new HttpError('Could not find a place to delete for the provided place id.', 404));
   }
-
+  const imagePath = place.image;              // 169- deleting images when places get deleted
   let deletedPlace = place;
 
-  try {           // 136- deleting place from user
+  try {                                         // 136- deleting place from user
     const session = await mongoose.startSession();
     session.startTransaction();
     await place.remove({ session: session });
@@ -151,6 +150,7 @@ const deletePlace = async (req, res, next) => {               // 97- deleting pl
   } catch (err) {
     return next(new HttpError('Something went wrong, could not delete place.', 500));
   }
+  fs.unlink(imagePath, err => console.log(err));              // 169- deleting images when places get deleted
   res.status(200).json({ message: `${deletedPlace.title} was deleted.` });
 };
 
