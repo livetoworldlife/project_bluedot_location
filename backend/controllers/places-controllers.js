@@ -50,7 +50,7 @@ const createPlace = async (req, res, next) => {                 //94- adding a p
     return next(new HttpError('Invalid inputs passed, please check your data.', 422));
   }
 
-  const { title, description, address, creator } = req.body;     // object destructuring - const title = req.body.title;
+  const { title, description, address } = req.body;     // object destructuring - const title = req.body.title;
 
   let coordinates;                                               //102 convert an address into coordinate
   try {
@@ -65,12 +65,12 @@ const createPlace = async (req, res, next) => {                 //94- adding a p
     address,
     location: coordinates,
     image: req.file.path,              // 168 upload new places image to backend 
-    creator
+    creator: req.userData.userId
   });
   //135 adding places to user 
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (error) {
     return next(new HttpError('Creating place failed, please try again.', 500));
   }
@@ -96,6 +96,8 @@ const createPlace = async (req, res, next) => {                 //94- adding a p
   res.status(201).json({ place: createdPlace });
 };
 
+
+
 const updatePlace = async (req, res, next) => {                 //96- adding update place
   const errors = validationResult(req);               // 100- validating 2. part
   if (!errors.isEmpty()) {
@@ -109,6 +111,10 @@ const updatePlace = async (req, res, next) => {                 //96- adding upd
     place = await Place.findById(placeId);
   } catch (err) {
     return next(new HttpError('Something went wrong, could not update place.', 500));
+  }
+
+  if (place.creator.toString() !== req.userData.userId) {                      // 181 - check update place only by created user
+    return next(new HttpError('You are not allowed to edit this place.', 401));
   }
 
   place.title = title;
@@ -135,6 +141,10 @@ const deletePlace = async (req, res, next) => {               // 97- deleting pl
   }
   if (!place) {
     return next(new HttpError('Could not find a place to delete for the provided place id.', 404));
+  }
+
+  if (place.creator.id !== req.userData.userId) {                      // 182 - check delete place only by created user
+    return next(new HttpError('You are not allowed to edit this place.', 403));
   }
   const imagePath = place.image;              // 169- deleting images when places get deleted
   let deletedPlace = place;

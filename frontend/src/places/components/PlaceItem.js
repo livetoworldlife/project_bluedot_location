@@ -30,7 +30,10 @@ const PlaceItem = props => {
     // 156-Deleting places from db
     try {
       await sendRequest(`http://localhost:5000/api/places/${props.id}`,
-        'DELETE', { 'Content-Type': 'application/json' });
+        'DELETE',
+        null,
+        { Authorization: 'Bearer ' + auth.token }            //180- using token to delete place
+      );
       props.onDelete(props.id);
     } catch (error) { }
   };

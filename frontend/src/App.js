@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -13,31 +13,20 @@ import UserPlaces from './places/pages/UserPlaces';         //49-dynamic route s
 import UpdatePlace from './places/pages/UpdaterPlace';      //62-update place
 import Auth from './user/pages/Auth';                       //69-Adding Auth page 
 import { AuthContext } from './shared/context/auth-context';  // 71-adding auth context
+import { useAuth } from './shared/hooks/auth-hook';           // 187- Creating a Custom Authentication Hook
 
 const App = () => {
-  // 71-adding auth context
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(false);      // 153- adding places POST
-
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
-    setUserId(uid);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-    setUserId(null);
-  }, []);
+  const { token, login, logout, userId } = useAuth();                       // 187- Creating a Custom Authentication Hook
 
   return (
     // 71-adding auth context
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout }}>
+      value={{ isLoggedIn: !!token, token: token, userId: userId, login: login, logout: logout }}>
       <Router>                                          {/* // 38 starting Router   */}
         <MainNavigation />                              {/* 43-navigation  */}
         <main>
           {/* //73-Adding Authenticated */}
-          {isLoggedIn ?
+          {token ?
             (<Switch>
               <Route path="/" exact>                    {/* route user page  */}
                 <Users />

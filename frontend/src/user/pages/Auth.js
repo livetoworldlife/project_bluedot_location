@@ -78,7 +78,7 @@ const Auth = () => {
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           }), { 'Content-Type': 'application/json' });
-        auth.login(responseData.user.id);                                       //73-Adding Authenticated
+        auth.login(responseData.userId, responseData.token);          // 179-using and attaching token in React user.id was changed useId   //73-Adding Authenticated
       } catch (err) { }
     } else {
       try {
@@ -92,7 +92,7 @@ const Auth = () => {
           'POST',
           formData
         );
-        auth.login(responseData.user.id);                                       //73-Adding Authenticated
+        auth.login(responseData.userId, responseData.token);                                       //73-Adding Authenticated
       } catch (err) { }
     }
   };

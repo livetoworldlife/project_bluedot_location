@@ -96,7 +96,7 @@ const login = async (req, res, next) => {
   }
 
   if (!existingUser || !isValidPassword) {    // basic validator so not need express-validator 
-    return next(new HttpError('Could not identify user, credentials seem to be wrong.', 401));  // 401 authentication fail
+    return next(new HttpError('Could not identify user, credentials seem to be wrong.', 403));  // 401 authentication fail
   }
 
   let token;                                        //176- generating token
