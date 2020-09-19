@@ -4,9 +4,9 @@
 
 ### ✨ [Demo](https://bluedotlocationsingleone.herokuapp.com/)
 
-<img alt="screenshot" src="docs/screenshot.png" />
+<img align="left" alt="example" src="https://github.com/livetoworldlife/project_bluedot_location/blob/master/project_images/bothscreen.png" width="900" height="600"/>
 
-> Design : [LiveToWorldLife]()
+> Design : [LiveToWorldLife](https://github.com/livetoworldlife)
 
 In this project, I built an entire project with different technologies work together. 
 
