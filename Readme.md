@@ -4,7 +4,7 @@
 
 ### ✨ [Demo](https://bluedotlocationsingleone.herokuapp.com/)
 
-<img align="left" alt="example" src="https://github.com/livetoworldlife/project_bluedot_location/blob/master/project_images/bothscreen.png" width="900" height="600"/>
+<img align="left" alt="example" src="https://github.com/livetoworldlife/project_bluedot_location/blob/master/project_images/bothscreen.png" width="1400" height="1100"/>
 
 > Design : [LiveToWorldLife](https://github.com/livetoworldlife)
 
