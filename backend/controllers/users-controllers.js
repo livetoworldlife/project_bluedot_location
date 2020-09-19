@@ -63,7 +63,7 @@ const signup = async (req, res, next) => {
       userId: createdUser.id,
       email: createdUser.email
     },
-      "supersecret",
+      process.env.JWT_KEY,
       { expiresIn: "1h" });
   } catch (error) {
     return next(new HttpError('Signing up failed, please try again.', 500));
@@ -105,7 +105,7 @@ const login = async (req, res, next) => {
       userId: existingUser.id,
       email: existingUser.email
     },
-      "supersecret",
+      process.env.JWT_KEY,
       { expiresIn: "1h" });
   } catch (error) {
     return next(new HttpError('Log in failed, please try again.', 500));

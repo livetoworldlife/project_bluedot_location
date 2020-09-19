@@ -7,3 +7,4 @@ const MainHeader = props => {
 };
 
 export default MainHeader;
+// containment  https://reactjs.org/docs/composition-vs-inheritance.html

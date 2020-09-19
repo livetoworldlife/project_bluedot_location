@@ -72,7 +72,7 @@ const Auth = () => {
     if (isLoginMode) {                                  //143 - sending a post request to the backend
       // 151 -improving the http-hook
       try {
-        const responseData = await sendRequest('http://localhost:5000/api/users/login',
+        const responseData = await sendRequest(process.env.REACT_APP_BACKEND_URL + '/users/login',
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -88,7 +88,8 @@ const Auth = () => {
         formData.append('password', formState.inputs.password.value);
         formData.append('image', formState.inputs.image.value);
 
-        const responseData = await sendRequest('http://localhost:5000/api/users/signup',
+        const responseData = await sendRequest(
+          process.env.REACT_APP_BACKEND_URL + '/users/signup',
           'POST',
           formData
         );

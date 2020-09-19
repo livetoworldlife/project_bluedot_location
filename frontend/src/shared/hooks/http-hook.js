@@ -30,7 +30,6 @@ export const useHttpClient = () => {
         if (!response.ok) {                                       //147-proper error handling in Frontend
           throw new Error(responseData.message);
         }
-
         setIsLoading(false);
         return responseData;
       } catch (err) {
